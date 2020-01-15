@@ -18,7 +18,7 @@ namespace RPJOOJ.Modules
             {
                 if (options == "")
                 {
-                    await ReplyAsync($"{Context.User.Mention} rolled: {(rnd.Next(1, 6).ToString())}");
+                    await ReplyAsync($"{Context.User.Mention} rolled: **{(rnd.Next(1, 6).ToString())}**");
                     return;
                 }
                 else
@@ -37,7 +37,10 @@ namespace RPJOOJ.Modules
                             result = random - numToBeOperated;
                             break;
                         case "*":
-                            result = random * numToBeOperated;
+                            for (int i = 0; i < numToBeOperated; i++)
+                            {
+                                result += random;
+                            }
                             break;
                         case "/":
                             result = random / numToBeOperated;
@@ -47,7 +50,7 @@ namespace RPJOOJ.Modules
                             break;
                     }
 
-                    await ReplyAsync($"{Context.User.Mention} rolled: {result.ToString()} ({random}, {numToBeOperated})");
+                    await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
                 }
             }
             catch (Exception ex)

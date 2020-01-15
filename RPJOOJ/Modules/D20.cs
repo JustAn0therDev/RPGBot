@@ -23,7 +23,7 @@ namespace RPJOOJ.Modules
                 }
                 else
                 {
-                    List<string> optionList = options.Split(" ").ToList();
+                    var optionList = options.Split(" ").ToList();
                     int result = 0;
                     int random = rnd.Next(1, 20);
                     int numToBeOperated = Convert.ToInt32(optionList[1]);
@@ -37,7 +37,10 @@ namespace RPJOOJ.Modules
                             result = random - numToBeOperated;
                             break;
                         case "*":
-                            result = random * numToBeOperated;
+                            for (int i = 0; i < numToBeOperated; i++)
+                            {
+                                result += random;
+                            }
                             break;
                         case "/":
                             result = random / numToBeOperated;
@@ -47,7 +50,7 @@ namespace RPJOOJ.Modules
                             break;
                     }
 
-                    await ReplyAsync($"{Context.User.Mention} rolled: {result.ToString()} ({random}, {numToBeOperated})");
+                    await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
                 }
             }
             catch (Exception ex)

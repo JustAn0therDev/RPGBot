@@ -54,7 +54,7 @@ namespace RPJOOJ.Modules
                             break;
                     }
 
-                    await ReplyAsync($"{Context.User.Mention} rolled: {result.ToString()} ({random}, {numToBeOperated})");
+                    await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
                 }
             }
             catch (Exception ex)
