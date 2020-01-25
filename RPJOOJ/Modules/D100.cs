@@ -14,7 +14,7 @@ namespace RPJOOJ.Modules
         public async Task RollD100Dice([Remainder]string options = "")
         {
             Random rnd = new Random();
-            int result;
+            int result = 0;
             try
             {
                 if (options == "")
@@ -39,7 +39,7 @@ namespace RPJOOJ.Modules
                         case "*":
                             for (int i = 0; i < numToBeOperated; i++)
                             {
-                                result += random;
+
                             }
                             break;
                         case "/":

@@ -14,9 +14,9 @@ namespace RPJOOJ.Modules
         public async Task RollD4Dice([Remainder]string options = "")
         {
             Random rnd = new Random();
-            int result;
             try
             {
+                int result = 0;
                 if (options == "")
                 {
                     await ReplyAsync($"{Context.User.Mention} rolled: {(rnd.Next(1, 4).ToString())}");
@@ -39,7 +39,7 @@ namespace RPJOOJ.Modules
                         case "*":
                             for (int i = 0; i < numToBeOperated; i++)
                             {
-                                result += random;
+                             
                             }
                             break;
                         case "/":
@@ -50,8 +50,8 @@ namespace RPJOOJ.Modules
                             break;
                     }
 
-                    await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
                 }
+                await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
             }
             catch (Exception ex)
             {

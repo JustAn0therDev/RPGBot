@@ -14,6 +14,7 @@ namespace RPJOOJ.Modules
         public async Task RollD6Dice([Remainder]string options = "")
         {
             Random rnd = new Random();
+            int result = 0;
             try
             {
                 if (options == "")
@@ -24,7 +25,6 @@ namespace RPJOOJ.Modules
                 else
                 {
                     List<string> optionList = options.Split(" ").ToList();
-                    int result = 0;
                     int random = rnd.Next(1, 6);
                     int numToBeOperated = Convert.ToInt32(optionList[1]);
 
@@ -39,7 +39,7 @@ namespace RPJOOJ.Modules
                         case "*":
                             for (int i = 0; i < numToBeOperated; i++)
                             {
-                                result += random;
+                                
                             }
                             break;
                         case "/":

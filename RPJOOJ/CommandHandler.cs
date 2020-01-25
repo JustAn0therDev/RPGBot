@@ -44,7 +44,7 @@ namespace RPJOOJ
 
             int argPos = 0;
 
-            if (!(message.HasStringPrefix("!", ref argPos) ||
+            if (!(message.HasStringPrefix("$", ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;

@@ -42,7 +42,7 @@ namespace RPJOOJ
             if (message == null || message.Author.IsBot) return;
 
             int argPos = 0;
-            if (message.HasStringPrefix("!", ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos) || !_client.CurrentUser.IsBot)
+            if (message.HasStringPrefix("$", ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos) || !_client.CurrentUser.IsBot)
             {
                 var context = new SocketCommandContext(_client, message);
 
@@ -77,7 +77,7 @@ namespace RPJOOJ
             _client.UserJoined += AnnounceUserJoined;
             await RegisterCommandsAsync();
 
-            await _client.SetGameAsync("Type !help to see all of the available commands!");
+            await _client.SetGameAsync("Type $help to see all of the available commands!");
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();

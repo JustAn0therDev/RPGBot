@@ -45,7 +45,7 @@ namespace RPJOOJ.Modules
                     {
                         var result = await cmd.CheckPreconditionsAsync(Context);
                         if (result.IsSuccess)
-                            description += $"!{cmd.Aliases[0]}\n{cmd.Summary}";
+                            description += $"${cmd.Aliases[0]}\n{cmd.Summary}";
                     }
 
                     if (!string.IsNullOrWhiteSpace(description))
