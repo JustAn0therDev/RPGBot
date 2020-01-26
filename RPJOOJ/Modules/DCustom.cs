@@ -13,19 +13,21 @@ namespace RPJOOJ.Modules
         [Summary("Creates a custom dice. Takes a custom number, operator and number as option parameters")]
         public async Task RollDCustomDice(string customDice = "",[Remainder]string options = "")
         {
-            Random rnd = new Random();
+            var rnd = new Random();
+            string resultMessage;
             try
             {
                 if (customDice == "")
                 {
-                    await ReplyAsync("You must inform me a number for me to create a dice.");
+                    await ReplyAsync($"{Context.User.Mention}, you must inform me a number for me to create a dice.");
                     return;
                 }
                 int customNumber = Convert.ToInt32(customDice);
 
                 if (options == "")
                 {
-                    await ReplyAsync($"{Context.User.Mention} rolled: {(rnd.Next(1, customNumber).ToString())}");
+                    resultMessage = $"{Context.User.Mention} rolled: **{rnd.Next(1, customNumber)}**";
+                    await ReplyAsync(resultMessage);
                     return;
                 }
                 else
@@ -44,7 +46,10 @@ namespace RPJOOJ.Modules
                             result = random - numToBeOperated;
                             break;
                         case "*":
-                            result = random * numToBeOperated;
+                            for (int i = 0; i < numToBeOperated; i++)
+                            {
+                                result = rnd.Next(1, customNumber);
+                            }
                             break;
                         case "/":
                             result = random / numToBeOperated;
@@ -53,9 +58,9 @@ namespace RPJOOJ.Modules
                             result = random;
                             break;
                     }
-
-                    await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
+                    resultMessage = $"{Context.User.Mention} rolled: **{result}**";
                 }
+                await ReplyAsync(resultMessage);
             }
             catch (Exception ex)
             {

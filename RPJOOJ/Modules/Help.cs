@@ -31,7 +31,7 @@ namespace RPJOOJ.Modules
         {
             try
             {
-                EmbedBuilder builder = new EmbedBuilder()
+                var builder = new EmbedBuilder()
                 {
                     Title = "All of the commands!",
                     Color = Color.Red,

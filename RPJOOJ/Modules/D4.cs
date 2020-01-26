@@ -13,13 +13,15 @@ namespace RPJOOJ.Modules
         [Summary("Rolls a D4 dice.")]
         public async Task RollD4Dice([Remainder]string options = "")
         {
-            Random rnd = new Random();
+            var rnd = new Random();
+            string resultMessage;
+            int result = 0;
             try
             {
-                int result = 0;
                 if (options == "")
                 {
-                    await ReplyAsync($"{Context.User.Mention} rolled: {(rnd.Next(1, 4).ToString())}");
+                    resultMessage = $"{Context.User.Mention} rolled: **{rnd.Next(1, 4)}**";
+                    await ReplyAsync(resultMessage);
                     return;
                 }
                 else
@@ -39,7 +41,7 @@ namespace RPJOOJ.Modules
                         case "*":
                             for (int i = 0; i < numToBeOperated; i++)
                             {
-                             
+                                result += rnd.Next(1, 4);
                             }
                             break;
                         case "/":
@@ -49,9 +51,9 @@ namespace RPJOOJ.Modules
                             result = random;
                             break;
                     }
-
+                    resultMessage = $"{Context.User.Mention} rolled: **{result}**";
                 }
-                await ReplyAsync($"{Context.User.Mention} rolled: **{result.ToString()}**");
+                await ReplyAsync(resultMessage);
             }
             catch (Exception ex)
             {

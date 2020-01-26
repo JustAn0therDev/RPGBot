@@ -39,8 +39,7 @@ namespace RPJOOJ
         #region Private Methods
         private async Task HandleCommandAsync(SocketMessage messageParam)
         {
-            SocketUserMessage message = messageParam as SocketUserMessage;
-            if (message == null) return;
+            if (!(messageParam is SocketUserMessage message)) return;
 
             int argPos = 0;
 
