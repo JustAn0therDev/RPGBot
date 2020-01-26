@@ -11,7 +11,7 @@ namespace RPJOOJ.Modules
         [Command("rolldcustom")]
         [Alias("custom")]
         [Summary("Creates a custom dice. Takes a custom number, operator and number as option parameters")]
-        public async Task RollDCustomDice(string customDice = "",[Remainder]string options = "")
+        public async Task RollDCustomDice(string customDice = "", [Remainder]string options = "")
         {
             var rnd = new Random();
             string resultMessage;
