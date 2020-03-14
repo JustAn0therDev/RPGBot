@@ -2,8 +2,6 @@
 using Discord.Commands;
 using System.Threading.Tasks;
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace RPJOOJ.Modules
 {
@@ -62,11 +60,11 @@ namespace RPJOOJ.Modules
             }
             catch (ArgumentException aex)
             {
-                Console.WriteLine(aex.Message);
+                await ReplyAsync($"Sorry, something went wrong! Error: {aex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                await ReplyAsync($"Sorry, something went wrong! Error: {ex.Message}");
             }
         }
 
