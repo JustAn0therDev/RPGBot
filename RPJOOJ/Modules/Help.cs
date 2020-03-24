@@ -2,6 +2,8 @@
 using Discord.Commands;
 using System.Threading.Tasks;
 using System;
+using RPJOOJ.Utils;
+using RPJOOJ.Factories;
 
 namespace RPJOOJ.Modules
 {
@@ -14,10 +16,12 @@ namespace RPJOOJ.Modules
         #endregion
 
         #region Constructors
+
         public Help(CommandService service)
         {
             _service = service;
         }
+
         #endregion
 
         #region Public Methods
@@ -29,38 +33,11 @@ namespace RPJOOJ.Modules
         {
             try
             {
-                var builder = new EmbedBuilder()
-                {
-                    Title = "All of the commands!",
-                    Color = Color.Red,
-                    Description = "These are the available commands:"
-                };
+                var builder = EmbedBuilderFactory.CreateEmbedBuilder("All of the commands!", Color.Red, "These are the available commands:");
 
-                foreach (var module in _service.Modules)
-                {
-                    string description = "";
-                    foreach (var cmd in module.Commands)
-                    {
-                        var result = await cmd.CheckPreconditionsAsync(Context);
-                        if (result.IsSuccess)
-                            description += $"${cmd.Aliases[0]}\n{cmd.Summary}";
-                    }
+                builder.AppendModulesFromCommandServiceToEmbedBuilder(Context, _service);
 
-                    if (!string.IsNullOrWhiteSpace(description))
-                    {
-                        builder.AddField(x =>
-                        {
-                            x.Name = module.Name;
-                            x.Value = description;
-                            x.IsInline = false;
-                        });
-                    }
-                }
                 await ReplyAsync("", false, builder.Build());
-            }
-            catch (ArgumentException aex)
-            {
-                await ReplyAsync($"Sorry, something went wrong! Error: {aex.Message}");
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
+using RPJOOJ.Utils;
 
 namespace RPJOOJ.Modules
 {
@@ -13,45 +14,28 @@ namespace RPJOOJ.Modules
         {
             try
             {
-                string resultMessage = string.Empty;
-                var rnd = new Random();
-                int result = 0, numToBeOperated = 0, random = 0;
+                int result = 0, numberThatWillBeOperated = 0, random = 0, diceNumber = 50;
+                string resultMessage, mathOperator = string.Empty;
                 string[] optionList = new string[] { };
+                var rnd = new Random();
 
                 if (options == "")
                 {
-                    resultMessage = $"{Context.User.Mention} rolled: **{rnd.Next(1, 50)}**";
+                    resultMessage = Context.User.Mention.CreateMessageForRandomlyGeneratedNumber(diceNumber);
                     await ReplyAsync(resultMessage);
                     return;
                 }
 
+                random = rnd.Next(1, diceNumber);
                 optionList = options.Split(" ");
-                random = rnd.Next(1, 50);
-                numToBeOperated = Convert.ToInt32(optionList[1]);
+                numberThatWillBeOperated = Convert.ToInt32(optionList[1]);
 
-                switch (optionList[0])
-                {
-                    case "+":
-                        result = random + numToBeOperated;
-                        break;
-                    case "-":
-                        result = random - numToBeOperated;
-                        break;
-                    case "*":
-                        for (int i = 0; i < numToBeOperated; i++)
-                        {
-                            result += rnd.Next(1, 50);
-                        }
-                        break;
-                    case "/":
-                        result = random / numToBeOperated;
-                        break;
-                    default:
-                        result = random;
-                        break;
-                }
+                (mathOperator, numberThatWillBeOperated) = GeneralUtilities.GetAllOptionsIntegersFromOptionList(optionList);
 
-                resultMessage = $"{Context.User.Mention} rolled: **{result}**";
+                result = GeneralUtilities.CalculateResultFromRequestedOperator(mathOperator, random, numberThatWillBeOperated);
+
+                resultMessage = Context.User.Mention.CreateMessageForCalculatedResult(result);
+
                 await ReplyAsync(resultMessage);
             }
             catch (Exception ex)

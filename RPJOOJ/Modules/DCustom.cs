@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using RPJOOJ.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -9,57 +10,37 @@ namespace RPJOOJ.Modules
         [Command("rolldcustom")]
         [Alias("custom")]
         [Summary("Creates a custom dice. Takes a custom number, operator and number as option parameters")]
-        public async Task RollDCustomDice(string customDice = "", [Remainder]string options = "")
+        public async Task RollDCustomDice(string customDice, [Remainder]string options = "")
         {
             try
             {
-                var rnd = new Random();
-                string resultMessage;
-                int customNumber = 0, result = 0, random = 0;
+                int result = 0, numberThatWillBeOperated = 0, random = 0;
+                string resultMessage, mathOperator = string.Empty;
                 string[] optionList = new string[] { };
+                var rnd = new Random();
 
-                if (customDice == "")
+                if (!int.TryParse(customDice, out int customNumber))
                 {
-                    await ReplyAsync($"{Context.User.Mention}, you must inform me a number for me to create a dice.");
+                    await ReplyAsync($"{Context.User.Mention}, you must inform me a valid number for me to create a dice.");
                     return;
                 }
 
-                customNumber = Convert.ToInt32(customDice);
-
                 if (options == "")
                 {
-                    resultMessage = $"{Context.User.Mention} rolled: **{rnd.Next(1, customNumber)}**";
+                    resultMessage = Context.User.Mention.CreateMessageForRandomlyGeneratedNumber(customNumber);
                     await ReplyAsync(resultMessage);
                     return;
                 }
 
-                optionList = options.Split(" ");
-                int numToBeOperated = Convert.ToInt32(optionList[1]);
                 random = rnd.Next(1, customNumber);
+                optionList = options.Split(" ");
+                numberThatWillBeOperated = Convert.ToInt32(optionList[1]);
 
-                switch (optionList[0])
-                {
-                    case "+":
-                        result = random + numToBeOperated;
-                        break;
-                    case "-":
-                        result = random - numToBeOperated;
-                        break;
-                    case "*":
-                        for (int i = 0; i < numToBeOperated; i++)
-                        {
-                            result = rnd.Next(1, customNumber);
-                        }
-                        break;
-                    case "/":
-                        result = random / numToBeOperated;
-                        break;
-                    default:
-                        result = random;
-                        break;
-                }
+                (mathOperator, numberThatWillBeOperated) = GeneralUtilities.GetAllOptionsIntegersFromOptionList(optionList);
 
-                resultMessage = $"{Context.User.Mention} rolled: **{result}**";
+                result = GeneralUtilities.CalculateResultFromRequestedOperator(mathOperator, random, numberThatWillBeOperated);
+
+                resultMessage = Context.User.Mention.CreateMessageForCalculatedResult(result);
 
                 await ReplyAsync(resultMessage);
             }
